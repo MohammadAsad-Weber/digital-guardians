@@ -1,0 +1,25 @@
+{
+  "name": "digital-guardians-server",
+  "version": "1.0.0",
+  "description": "Backend API for Digital Guardians - a secure password manager application. Built with Node.js, Express, and MongoDB, it handles user authentication, encrypted password storage, and random password generation.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "author": "Mohammad Asad",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.1",
+    "nodemailer": "^7.0.3"
+  }
+}
