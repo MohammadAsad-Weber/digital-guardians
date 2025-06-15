@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Lexend:wght@100..900&display=swap");
+@import "tailwindcss";
+
+/* GLOBAL CSS VARIABLES */
+:root {
+  /* Background Colors */
+  --bg-primary: #eef0f2;
+  --bg-disabled: #aeaeae;
+
+  /* Theme */
+  --theme-primary: #6560f3;
+  --theme-secondary: #8481df;
+
+  /* Icons */
+  --icon-primary: #1e1e1e;
+  --icon-secondary: #526578;
+
+  /* Text Color */
+  --text-default: #1e1e1e;
+  --text-primary: #29333c;
+  --text-secondary: #526578;
+  --text-tertiary: #65727e;
+}
+
+html,
+body {
+  scrollbar-width: thin;
+}
+
+/* GENERATE PASSWORD SEEKBAR */
+input[type="range"]#seekbar {
+  -webkit-appearance: none;
+  max-width: 225px;
+  width: 100%;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    margin-top: -8px;
+    background: #ffffff;
+    cursor: pointer;
+    border: 5px solid var(--theme-primary);
+    border-radius: 100%;
+    box-shadow: -3px 0 0 #ffffff, 3px 0 0 #ffffff;
+  }
+
+  &::-webkit-slider-runnable-track {
+    height: 5px;
+    width: 100%;
+    cursor: pointer;
+    background: var(--theme-primary);
+    border-radius: 5px;
+  }
+}
+
+/* REMOVE THE NATIVE TOGGLE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+
+/* SLIDE ANIMATION */
+.animate-slide-in {
+  animation: fade-slide-in 500ms ease-in-out;
+}
+@keyframes fade-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* POP-UP ANIMATION */
+.animate-zoom-in {
+  animation: fade-zoom-in 500ms cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+@keyframes fade-zoom-in {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ZOOM-OUT ANIMATION */
+.animate-zoom-out {
+  animation: fade-zoom-out 250ms ease-out;
+}
+@keyframes fade-zoom-out {
+  0% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* GLOBAL LOCK LOADER */
+.loader {
+  width: 74px;
+  height: 60px;
+  position: relative;
+  border: 5px solid #6560f3;
+  border-radius: 8px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    border: 5px solid #6560f3;
+    width: 42px;
+    height: 33px;
+    border-radius: 50% 50% 0 0;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -100%);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #6560f3;
+    box-shadow: 17px 0 #6560f3, -17px 0 #6560f3;
+    animation: flash 0.5s ease-out infinite alternate;
+  }
+}
+@keyframes flash {
+  0% {
+    background-color: rgba(101, 96, 243, 0.25);
+    box-shadow: 17px 0 rgba(101, 96, 243, 0.25), -17px 0 rgba(101, 96, 243, 1);
+  }
+  50% {
+    background-color: rgba(101, 96, 243, 1);
+    box-shadow: 17px 0 rgba(101, 96, 243, 0.25),
+      -17px 0 rgba(101, 96, 243, 0.25);
+  }
+  100% {
+    background-color: rgba(101, 96, 243, 0.25);
+    box-shadow: 17px 0 rgba(101, 96, 243, 1), -17px 0 rgba(101, 96, 243, 0.25);
+  }
+}
