@@ -1,6 +1,5 @@
-# node_modules
-node_modules
-
-# environment variables
+# Excluded files/folders
+/dist
+/node_modules
 .env
 .env.local
