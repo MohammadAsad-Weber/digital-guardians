@@ -1,13 +1,13 @@
 import { Link } from "react-router";
 import { IoClose } from "react-icons/io5";
 
-// Interface
+// Props type for the Hamburger component
 interface HamburgerProps {
   toggle: boolean;
   links: { text: string; href: string }[];
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
-function Hamburger({ links, toggle, setToggle }: HamburgerProps) {
+function HamburgerMenu({ links, toggle, setToggle }: HamburgerProps) {
   return (
     <div
       style={toggle ? { right: "0" } : { right: "-100%" }}
@@ -33,21 +33,20 @@ function Hamburger({ links, toggle, setToggle }: HamburgerProps) {
 
         {/* LINKS CONTAINER */}
         <div className="w-full py-5 px-2.5 text-center text-[var(--text-secondary)] flex flex-col items-center gap-3.5">
-          {links.map(({ text, href }, index) => {
-            return (
-              <Link
-                key={index}
-                to={href}
-                className="w-[95%] p-5 bg-white rounded-xl transition-all hover:text-[var(--text-primary)] hover:shadow-[0_0_10px_#0000004D] hover:scale-105"
-              >
-                {text}
-              </Link>
-            );
-          })}
+          {links.map(({ text, href }, index) => (
+            <Link
+              key={index}
+              to={href}
+              className="w-[95%] p-5 bg-white rounded-xl transition-all hover:text-[var(--text-primary)] hover:shadow-[0_0_10px_#0000004D] hover:scale-105"
+            >
+              {text}
+            </Link>
+          ))}
         </div>
+        
       </div>
     </div>
   );
 }
 
-export default Hamburger;
+export default HamburgerMenu;

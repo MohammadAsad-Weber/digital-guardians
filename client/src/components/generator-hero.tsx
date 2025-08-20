@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { handleCopy, generatePassword } from "@/utilities";
 
-// UI Components
+// React-icons
+import { FiCopy } from "react-icons/fi";
+import { FaPlus, FaMinus } from "react-icons/fa6";
+
+// UI Hero Components
 import {
   Hero,
   HeroContent,
@@ -8,16 +13,8 @@ import {
   HeroDescription,
 } from "@/components/ui/hero";
 
-// React-icons
-import { FiCopy } from "react-icons/fi";
-import { FaPlus, FaMinus } from "react-icons/fa6";
-
-// Utility functions
-import handleCopy from "@/utilities/handleCopy";
-import generatePassword from "@/utilities/generatePassword";
-
-function GenerateHero() {
-  // Hooks
+function GeneratorHero() {
+  // state for password length and generated password value
   const [length, setLength] = useState(12);
   const [password, setPassword] = useState("");
 
@@ -101,11 +98,11 @@ function GenerateHero() {
             <FaPlus />
           </button>
         </div>
-        
-      </div>
 
+      </div>
+      
     </Hero>
   );
 }
 
-export default GenerateHero;
+export default GeneratorHero;

@@ -1,14 +1,14 @@
 import { Link } from "react-router";
+import { getFavicon } from "@/utilities";
 import { FaChevronRight } from "react-icons/fa";
-import getFavicon from "@/utilities/getFavicon";
 
-// Interface
+// Props type for the PasswordCard component
 interface PasswordCardProps {
   id: string;
   url: string;
 }
 function PasswordCard({ id, url }: PasswordCardProps) {
-  // constant variables
+  // extract hostname and favicon from provided URL
   const website = new URL(url);
   const favicon = getFavicon(website.hostname);
 
