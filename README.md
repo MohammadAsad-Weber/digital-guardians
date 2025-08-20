@@ -1,6 +1,15 @@
 # 🔐 Digital Guardians - Full Stack Password Manager
 
-**Digital Guardians** is a full-stack password manager application built with the MERN stack (MongoDB, Express, React, Node.js). It provides secure password management with features such as authentication, encrypted password storage, and a random password generator.
+**Digital Guardians** is a secure, high-performance password manager built with the MERN stack (MongoDB, Express, React, Node.js). It allows users to manage passwords safely, generate strong random passwords, and store them in an encrypted vault.
+
+## 🆕 What’s New in 2025
+
+- **Server Migrated to TypeScript**: Backend now fully in TypeScript for type safety and maintainability.
+- **Zod-based Form Validation**: Inline error messages for safer and cleaner user input handling.
+- **Centralized TypeScript Types**: Consistent, maintainable type definitions across the entire codebase.
+- **Structured & Scalable Folder Architecture**: Easier to maintain and extend.
+- **Safer, Modern Codebase**: Updated dependencies and best practices for security and maintainability.
+- **Improved UI/UX**: Mobile-first, responsive design with Tailwind CSS.
 
 ## 📸 Screenshots
 
@@ -8,31 +17,32 @@
 
 ## 🚀 Features
 
-- **User Authentication:** Secure login and sign-up functionality with JWT authentication.
-- **Password Management:** Save and retrieve passwords securely.
-- **Random Password Generator:** Generate strong, random passwords.
-- **Secure Storage:** Passwords are encrypted before being stored in the database.
+- **Secure Authentication**: Signup/login with JWT-based authentication.
+- **Password Vault**: Save, edit, delete, and search credentials securely.
+- **Random Password Generator**: Generate strong, random passwords with one click.
+- **Encrypted Storage**: Passwords are encrypted before being saved in the database.
+- **Real-Time Sync**: Fast state updates using TanStack Query on the frontend.
+- **Responsive Design**: Mobile-first, modern UI powered by Tailwind CSS.
 
 ## ⚙️ Tech Stack
 
 ### Frontend:
 
-- **React.js**: JavaScript library for building user interfaces.
-- **TypeScript**: Typed superset of JavaScript for static type checking.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **React Router**: For handling client-side routing.
-- **TanStack Query**: For handling data fetching and caching.
+- **React.js + TypeScript**: Modern UI with type safety.
+- **Tailwind CSS**: Utility-first styling framework.
+- **React Router v7**: Client-side routing.
+- **TanStack Query**: Data fetching and caching.
+- **Zod & React Hook Form**: Form validation and handling.
+- **Vite**: Fast build tool for development.
 
 ### Backend:
 
-- **Node.js**: JavaScript runtime for building the backend API.
-- **Express.js**: Web framework for building RESTful APIs.
-- **MongoDB**: NoSQL database for storing user credentials and password data.
-- **Mongoose**: ODM (Object Data Modeling) library for MongoDB.
-- **Cookie-Parser**: For parsing cookies in requests.
-- **JWT (JSON Web Token)**: For secure authentication.
-- **Bcrypt**: For hashing and encrypting passwords.
-- **Dotenv**: For environment variable management.
+- **Node.js & Express.js**: RESTful API backend.
+- **TypeScript**: Strongly typed backend for better maintainability and safety.
+- **MongoDB & Mongoose**: NoSQL database and ODM.
+- **JWT & Bcrypt**: Secure authentication and password hashing.
+- **Zod**: Runtime schema validation for safe and consistent data handling.
+- **Cookie-Parser & Dotenv**: Cookie handling and environment management.
 
 ## ⚙️ Installation
 
