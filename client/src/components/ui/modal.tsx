@@ -1,18 +1,15 @@
-import { Link } from "react-router";
-import cn from "@/utilities/classname";
+import { mergeClassNames } from "@/libs";
+import { Link, type LinkProps } from "react-router";
 
-// Types
-import {
-  GeneralProps,
-  CustomLinkProps,
-  ButtonProps,
-} from "@/components/ui/types";
+// Type Definitions
+import { BaseProps } from "@/types/ui-props";
 
-// Components
-export function Modal({ children, className }: GeneralProps) {
+// UI Modal Components
+export function Modal({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "max-w-sm w-full p-5 pt-7.5 relative flex flex-col items-center justify-center gap-5 bg-white rounded-2xl shadow-[0_0_10px_#00000040] animate-zoom-in",
         className
       )}
@@ -21,10 +18,11 @@ export function Modal({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function ModalContent({ children, className }: GeneralProps) {
+export function ModalContent({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full text-center flex flex-col items-center justify-center gap-1.5",
         className
       )}
@@ -33,10 +31,15 @@ export function ModalContent({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function ModalTitle({ children, className }: GeneralProps) {
+export function ModalTitle({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "text-lg font-medium text-[var(--text-primary)]",
         className
       )}
@@ -45,17 +48,28 @@ export function ModalTitle({ children, className }: GeneralProps) {
     </h3>
   );
 }
-export function ModalDescription({ children, className }: GeneralProps) {
+export function ModalDescription({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLParagraphElement>) {
   return (
-    <p className={cn("text-sm text-[var(--text-secondary)]", className)}>
+    <p
+      {...props}
+      className={mergeClassNames(
+        "text-sm text-[var(--text-secondary)]",
+        className
+      )}
+    >
       {children}
     </p>
   );
 }
-export function ModalActions({ children, className }: GeneralProps) {
+export function ModalActions({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full text-center font-medium text-white flex items-center justify-center gap-3.5",
         className
       )}
@@ -68,14 +82,14 @@ export function ModalCancelAction({
   children,
   className,
   ...props
-}: CustomLinkProps) {
+}: LinkProps) {
   return (
     <Link
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full h-10 flex items-center justify-center cursor-pointer bg-[var(--theme-primary)] rounded-xl hover:bg-[var(--theme-secondary)]",
         className
       )}
-      {...props}
     >
       {children}
     </Link>
@@ -85,14 +99,14 @@ export function ModalProceedAction({
   children,
   className,
   ...props
-}: ButtonProps) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full h-10 flex items-center justify-center cursor-pointer bg-red-500 rounded-xl hover:bg-red-400",
         className
       )}
-      {...props}
     >
       {children}
     </button>

@@ -1,11 +1,16 @@
-import cn from "@/utilities/classname";
-import { GeneralProps } from "@/components/ui/types";
+import { mergeClassNames } from "@/libs";
+import type { BaseProps } from "@/types/ui-props";
 
-// Components
-export function Hero({ children, className }: GeneralProps) {
+// UI Hero Components
+export function Hero({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLElement>) {
   return (
     <section
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full py-12 px-5 flex flex-col items-center justify-center gap-10 bg-[#807DDA26]",
         className
       )}
@@ -14,10 +19,11 @@ export function Hero({ children, className }: GeneralProps) {
     </section>
   );
 }
-export function HeroContent({ children, className }: GeneralProps) {
+export function HeroContent({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "text-center flex flex-col items-center justify-center gap-2.5",
         className
       )}
@@ -26,17 +32,35 @@ export function HeroContent({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function HeroTitle({ children, className }: GeneralProps) {
+export function HeroTitle({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLHeadingElement>) {
   return (
-    <h1 className={cn("text-3xl font-extrabold sm:text-4xl", className)}>
+    <h1
+      {...props}
+      className={mergeClassNames(
+        "text-3xl font-extrabold sm:text-4xl",
+        className
+      )}
+    >
       {children}
     </h1>
   );
 }
-export function HeroDescription({ children, className }: GeneralProps) {
+export function HeroDescription({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLParagraphElement>) {
   return (
     <p
-      className={cn("tracking-widest text-[var(--text-secondary)]", className)}
+      {...props}
+      className={mergeClassNames(
+        "tracking-widest text-[var(--text-secondary)]",
+        className
+      )}
     >
       {children}
     </p>

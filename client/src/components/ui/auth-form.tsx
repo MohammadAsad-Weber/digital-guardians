@@ -1,30 +1,42 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import cn from "@/utilities/classname";
-import { IoClose } from "react-icons/io5";
+import { mergeClassNames } from "@/libs";
+
+// React-icons
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { IoClose, IoCloseCircleOutline } from "react-icons/io5";
 
-// Types
-import type {
-  GeneralProps,
-  FormProps,
-  LabelProps,
-  InputProps,
-  SubmitButtonProps,
-} from "@/components/ui/types";
+// Type Definitions
+import type { BaseProps, SubmitButtonProps } from "@/types/ui-props";
 
-// Components
-export function Form({ children, className, back = "/", ...props }: FormProps) {
+// Extended Type Definitions
+interface FormProps extends BaseProps<HTMLFormElement> {
+  backTo?: string;
+}
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+}
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  icon: React.JSX.Element;
+}
+
+// UI Auth Form Components
+export function Form({
+  children,
+  className,
+  backTo = "/",
+  ...props
+}: FormProps) {
   return (
     <form
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "max-w-md w-full p-5 pt-7.5 relative flex flex-col items-center justify-center gap-5 bg-white rounded-2xl shadow-[0_0_20px_#0000004D] animate-slide-in",
         className
       )}
-      {...props}
     >
       <Link
-        to={back}
+        to={backTo}
         className="absolute top-3.5 right-3.5 text-[var(--icon-secondary)] hover:text-[var(--icon-primary)]"
       >
         <IoClose size="1.5rem" />
@@ -33,10 +45,11 @@ export function Form({ children, className, back = "/", ...props }: FormProps) {
     </form>
   );
 }
-export function FormHeader({ children, className }: GeneralProps) {
+export function FormHeader({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "text-center flex flex-col items-center justify-center",
         className
       )}
@@ -45,22 +58,42 @@ export function FormHeader({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function FormTitle({ children, className }: GeneralProps) {
+export function FormTitle({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLHeadingElement>) {
   return (
-    <h3 className={cn("text-2xl font-semibold", className)}>{children}</h3>
+    <h3
+      {...props}
+      className={mergeClassNames("text-2xl font-semibold", className)}
+    >
+      {children}
+    </h3>
   );
 }
-export function FormDescription({ children, className }: GeneralProps) {
+export function FormDescription({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLParagraphElement>) {
   return (
-    <p className={cn("text-sm text-[var(--text-tertiary)]", className)}>
+    <p
+      {...props}
+      className={mergeClassNames(
+        "text-sm text-[var(--text-tertiary)]",
+        className
+      )}
+    >
       {children}
     </p>
   );
 }
-export function FormBody({ children, className }: GeneralProps) {
+export function FormBody({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full flex flex-col items-center justify-center gap-5",
         className
       )}
@@ -69,22 +102,29 @@ export function FormBody({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function InputContainer({ children, className }: GeneralProps) {
+export function InputContainer({ children, className, ...props }: BaseProps) {
   return (
-    <div className={cn("w-full flex flex-col gap-2.5", className)}>
+    <div
+      {...props}
+      className={mergeClassNames("w-full flex flex-col gap-2.5", className)}
+    >
       {children}
     </div>
   );
 }
 export function Label({ children, className, required, ...props }: LabelProps) {
   return (
-    <label className={cn("w-fit font-medium", className)} {...props}>
+    <label
+      {...props}
+      className={mergeClassNames("w-fit font-medium", className)}
+    >
       {children} {required && <span className="text-red-500">*</span>}
     </label>
   );
 }
 export function Input({
   icon,
+  value,
   className,
   type = "text",
   ...props
@@ -94,25 +134,41 @@ export function Input({
     <div className="w-full px-5 flex items-center justify-start gap-3.5 bg-[var(--bg-primary)] rounded-full">
       {icon}
       <input
-        type={type === "password" ? (visibility ? "text" : "password") : type}
-        className={cn("w-full py-3.5 outline-none", className)}
         {...props}
+        type={type === "password" ? (visibility ? "text" : "password") : type}
+        className={mergeClassNames("w-full py-3.5 outline-none", className)}
       />
       {type === "password" && (
         <button
           type="button"
           onClick={() => setVisibility((val) => !val)}
-          style={
-            typeof props.value === "string" && props.value
-              ? { visibility: "visible" }
-              : { visibility: "hidden" }
-          }
+          style={value ? { visibility: "visible" } : { visibility: "hidden" }}
           className="text-2xl text-[var(--icon-secondary)] cursor-pointer hover:text-[var(--text-primary)]"
         >
           {visibility ? <VscEyeClosed /> : <VscEye />}
         </button>
       )}
     </div>
+  );
+}
+export function ErrorMessage({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLParagraphElement>) {
+  return (
+    children && (
+      <p
+        {...props}
+        className={mergeClassNames(
+          "ml-1.5 text-xs text-red-500 font-medium flex items-center justify-start gap-1.5",
+          className
+        )}
+      >
+        <IoCloseCircleOutline size="1rem" />
+        {children}
+      </p>
+    )
   );
 }
 export function SubmitButton({
@@ -122,12 +178,12 @@ export function SubmitButton({
 }: SubmitButtonProps) {
   return (
     <button
+      {...props}
       type="submit"
-      className={cn(
+      className={mergeClassNames(
         "w-full h-12 text-center text-white bg-[var(--theme-primary)] rounded-xl cursor-pointer hover:bg-[var(--theme-secondary)] disabled:bg-[var(--bg-disabled)] disabled:cursor-no-drop",
         className
       )}
-      {...props}
     >
       {children}
     </button>

@@ -1,38 +1,54 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import cn from "@/utilities/classname";
-import { IoClose } from "react-icons/io5";
+import { mergeClassNames } from "@/libs";
+
+// React-icons
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { IoClose, IoCloseCircleOutline } from "react-icons/io5";
 
-// Types
-import type {
-  GeneralProps,
-  FormProps,
-  FormHeaderProps,
-  LabelProps,
-  SubmitButtonProps,
-} from "@/components/ui/types";
+// Type Definitions
+import type { BaseProps, SubmitButtonProps } from "@/types/ui-props";
 
-// Components
-export function Form({ children, className, ...props }: FormProps) {
+// Extended Type Definitions
+interface FormHeaderProps extends BaseProps {
+  backTo: string;
+}
+
+// UI Form Components
+export function Form({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLFormElement>) {
   return (
     <form
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "max-w-md w-full p-5 pt-7.5 flex flex-col items-center justify-center gap-5 bg-white rounded-2xl shadow-[0_0_10px_#00000040] animate-slide-in",
         className
       )}
-      {...props}
     >
       {children}
     </form>
   );
 }
-export function FormHeader({ children, back, className }: FormHeaderProps) {
+export function FormHeader({
+  children,
+  className,
+  backTo,
+  ...props
+}: FormHeaderProps) {
   return (
-    <div className={cn("w-full flex items-center justify-between", className)}>
+    <div
+      {...props}
+      className={mergeClassNames(
+        "w-full flex items-center justify-between",
+        className
+      )}
+    >
       {children}
       <Link
-        to={back}
+        to={backTo}
         className="text-[var(--icon-secondary)] hover:text-[var(--icon-primary)]"
       >
         <IoClose size="1.5rem" />
@@ -40,13 +56,25 @@ export function FormHeader({ children, back, className }: FormHeaderProps) {
     </div>
   );
 }
-export function FormTitle({ children, className }: GeneralProps) {
-  return <h3 className={cn("text-xl font-medium", className)}>{children}</h3>;
+export function FormTitle({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLHeadElement>) {
+  return (
+    <h3
+      {...props}
+      className={mergeClassNames("text-xl font-medium", className)}
+    >
+      {children}
+    </h3>
+  );
 }
-export function FormBody({ children, className }: GeneralProps) {
+export function FormBody({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full flex flex-col items-center justify-center gap-3.5",
         className
       )}
@@ -55,10 +83,11 @@ export function FormBody({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function InputContainer({ children, className }: GeneralProps) {
+export function InputContainer({ children, className, ...props }: BaseProps) {
   return (
     <div
-      className={cn(
+      {...props}
+      className={mergeClassNames(
         "w-full py-2.5 px-3.5 flex flex-col gap-0.5 border border-gray-500 rounded-xl",
         className
       )}
@@ -67,17 +96,25 @@ export function InputContainer({ children, className }: GeneralProps) {
     </div>
   );
 }
-export function Label({ children, className, ...props }: LabelProps) {
+export function Label({
+  children,
+  className,
+  ...props
+}: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("text-sm text-[var(--text-secondary)]", className)}
       {...props}
+      className={mergeClassNames(
+        "text-sm text-[var(--text-secondary)]",
+        className
+      )}
     >
       {children}
     </label>
   );
 }
 export function Input({
+  value,
   className,
   type = "text",
   ...props
@@ -86,25 +123,41 @@ export function Input({
   return (
     <div className="w-full flex items-center justify-between gap-3.5">
       <input
-        type={type === "password" ? (visibility ? "text" : "password") : type}
-        className={cn("w-full outline-none", className)}
         {...props}
+        type={type === "password" ? (visibility ? "text" : "password") : type}
+        className={mergeClassNames("w-full outline-none", className)}
       />
       {type === "password" && (
         <button
           type="button"
           onClick={() => setVisibility((val) => !val)}
-          style={
-            typeof props.value === "string" && props.value
-              ? { visibility: "visible" }
-              : { visibility: "hidden" }
-          }
+          style={value ? { visibility: "visible" } : { visibility: "hidden" }}
           className="text-2xl text-[var(--icon-secondary)] cursor-pointer hover:text-[var(--text-primary)]"
         >
           {visibility ? <VscEyeClosed /> : <VscEye />}
         </button>
       )}
     </div>
+  );
+}
+export function ErrorMessage({
+  children,
+  className,
+  ...props
+}: BaseProps<HTMLParagraphElement>) {
+  return (
+    children && (
+      <p
+        {...props}
+        className={mergeClassNames(
+          "-my-1 ml-0.5 text-xs text-red-500 font-medium flex items-center justify-start self-start gap-1.5",
+          className
+        )}
+      >
+        <IoCloseCircleOutline size="1rem" />
+        {children}
+      </p>
+    )
   );
 }
 export function SubmitButton({
@@ -114,12 +167,12 @@ export function SubmitButton({
 }: SubmitButtonProps) {
   return (
     <button
+      {...props}
       type="submit"
-      className={cn(
+      className={mergeClassNames(
         "w-full h-12 text-center text-white bg-[var(--theme-primary)] rounded-xl cursor-pointer hover:bg-[var(--theme-secondary)] disabled:bg-[var(--bg-disabled)] disabled:cursor-no-drop",
         className
       )}
-      {...props}
     >
       {children}
     </button>
