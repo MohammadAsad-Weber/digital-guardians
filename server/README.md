@@ -1,44 +1,56 @@
-# 🛡️ Digital Guardians - Backend
+# 🛡️ Digital Guardians – Backend (TypeScript Edition)
 
-Digital Guardians is a secure backend system for a full-stack password manager application built using the MERN stack. This server handles user authentication, encrypted password storage, and core password management operations. It follows modern security best practices with Helmet, rate limiting, JWT-based authentication, and bcrypt password hashing.
+Digital Guardians is a secure backend system for a full-stack password manager, now fully migrated to **TypeScript** for improved maintainability, reliability, and developer experience.
 
-## 💡 Features
+This backend handles **user authentication**, **password encryption**, **secure token management**, and **email-based password recovery** — all implemented using modern security practices and built with the **MERN stack**.
 
-- User authentication with JWT
-- Password hashing using bcrypt
-- HttpOnly cookie-based token storage
-- Encrypted Password Storage
-- Nodemailer to send password reset emails
-- Rate limiting to prevent abuse
-- Helmet integration for HTTP header protection
-- Modular file structure for scalability
+## 🔁 TypeScript Migration Highlights
+
+- Full codebase rewritten in TypeScript.
+- Modular typing with centralized types directory.
+- Strong input validation using Zod schemas.
+- Cleaner, safer refactoring with static typing.
+- Improved maintainability and code readability.
+
+## 💡 Core Features
+
+- JWT-based access & refresh token authentication.
+- Bcrypt password hashing.
+- AES-256 encrypted password storage with unique IVs.
+- Password reset via email with secure token.
+- HttpOnly cookie token storage.
+- Express middlewares: Helmet, CORS, rate limiting.
+- Zod schema validation.
+- Modular file structure for scalability.
+- Fully type-safe API logic.
 
 ## 🛠 Tech Stack
 
-- **Node.js** – _Backend runtime environment_
-- **Express.js** – _Web application framework_
-- **MongoDB** – _NoSQL database_
-- **Mongoose** – _ODM for MongoDB_
-- **Bcrypt** – _Secure password hashing_
-- **JWT** – _Token-based authentication_
-- **nodemailer** – _Email service for sending password reset emails_
-- **cookie-parser** – _Cookie support for storing JWT_
-- **Helmet** – _Secure HTTP headers_
-- **express-rate-limit** – _Rate limiting middleware_
-- **CORS** – _Cross-origin request handling_
-- **dotenv** – _Environment variable management_
+| Purpose       | Technology                           |
+| ------------- | ------------------------------------ |
+| Runtime       | Node.js (v20+)                       |
+| Web Framework | Express.js                           |
+| Language      | **TypeScript**                       |
+| Database      | MongoDB + Mongoose ODM               |
+| Auth          | JWT, bcrypt, cookie-parser           |
+| Email         | Nodemailer (Gmail SMTP)              |
+| Security      | Helmet, rate-limit, encryption utils |
+| Validation    | **Zod**                              |
+| Environment   | dotenv                               |
 
-## 📁 Folder Structure
+## 📁 Folder Structure (Post-Migration)
 
 ```ini
-server/
-    ├── email/                 # Email templates
-    ├── middlewares/           # Custom middlewares
-    ├── models/                # MongoDB document schemas
-    ├── routes/                # API route definitions
-    ├── utilities/             # Utility functions
-    ├── .env                   # Environment variables
-    ├── index.js               # Main server entry point
+src/
+├── controllers/       # Route logic
+├── email/             # Email templates & utilities
+├── middlewares/       # Express middlewares
+├── models/            # Mongoose schemas (typed)
+├── routes/            # API routes (typed)
+├── types/             # Global/custom TS types
+├── utilities/         # Helpers (encryption, tokens)
+├── zod-schemas/       # Request validation with Zod
+└── index.ts           # Main server entry
 ```
 
 ## ⚙️ Getting Started
@@ -61,66 +73,85 @@ server/
     Create a `.env` file in the `server/` root:
 
     ```ini
+    # Application Configuration
     NODE_ENV=YOUR_NODE_ENV
-    MONGO_URI=YOUR_MONGO_URI
     FRONTEND_URL=YOUR_FRONTEND_URL
+
+    # Database
+    DATABASE_URL=YOUR_DATABASE_URL
+
+    # Email Configuration
     EMAIL_USER=YOUR_EMAIL_USER
     EMAIL_PASS=YOUR_EMAIL_PASS
+
+    # Authentication & Security
     ENCRYPTION_SECRET=YOUR_ENCRYPTION_SECRET
-    RESET_TOKEN_SECRET=YOUR_RESET_TOKEN_SECRET
     ACCESS_TOKEN_SECRET=YOUR_ACCESS_TOKEN_SECRET
     REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN_SECRET
+    RESET_TOKEN_SECRET=YOUR_RESET_TOKEN_SECRET
     ```
 
-    ⚠️ **ALERT**: ENCRYPTION_SECRET Must be 64 hex characters (32 bytes).
+    > ⚠️ **ALERT**: ENCRYPTION_SECRET Must be 64 hex characters (32 bytes).
 
 4.  **Run the server**
 
     ```bash
+    # Start the development server
     npm run dev
+
+    # Build and run production
+    npm run build
+    npm start
     ```
 
     The server will be accessible at `http://localhost:3000` or at the port defined in the `.env` configuration file.
 
-## 🔌 API Endpoints
+## 📡 API Overview
 
-### Auth Routes
+### 🔐 Auth Routes (`/auth`)
 
-- `POST /api/auth/signup` – Register a new user
-- `POST /api/auth/login` – Authenticate and issue token
-- `POST /api/auth/forgot-password` – Generate a reset password link
-- `POST /api/auth/reset-password/:resetToken` – Reset the user password
-- `GET /api/auth/refresh` – Refresh authentication token
-- `DELETE /api/auth/logout` – Logout and invalidate token
+| Method | Endpoint                 | Description              |
+| ------ | ------------------------ | ------------------------ |
+| POST   | `/signup`                | Register a new user      |
+| POST   | `/login`                 | Authenticate user        |
+| POST   | `/forgot-password`       | Send reset email         |
+| PATCH  | `/reset-password/:token` | Reset password via token |
+| GET    | `/refresh`               | Refresh JWT token        |
+| DELETE | `/logout`                | Logout and clear token   |
 
-### Password Routes
+### 👤 Account Routes (`/account`)
 
-- `GET /api/passwords` – List all saved passwords
-- `GET /api/passwords/:id` – Get specific password by ID
-- `POST /api/passwords` – Create a new password entry
-- `PUT /api/passwords/:id` – Update specific password by ID
-- `DELETE /api/passwords/:id` – Delete specific password by ID
+| Method | Endpoint    | Description                                 |
+| ------ | ----------- | ------------------------------------------- |
+| GET    | `/profile`  | Get current user's data                     |
+| PATCH  | `/profile`  | Update user profile (username and/or email) |
+| PATCH  | `/password` | Change password                             |
+| DELETE | `/profile`  | Delete user account                         |
 
-### User Routes
+### 🔑 Password Routes (`/api/passwords`)
 
-- `GET /api/account` – Get current user profile
-- `PUT /api/account` – Update current user profile
-- `PUT /api/account/password` – Change current user password
-- `DELETE /api/account` – Delete current user account
+| Method | Endpoint | Description                  |
+| ------ | -------- | ---------------------------- |
+| GET    | `/:id`   | Retrieve one password by ID  |
+| GET    | `/`      | Get all stored passwords     |
+| POST   | `/`      | Create a new password record |
+| PATCH  | `/:id`   | Update password              |
+| DELETE | `/:id`   | Delete password              |
 
-### Click here to open Postman Collection
+## 🛡️ Security Highlights
 
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/43160558-c19885df-b133-48f7-8450-b4f4d0d37992?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D43160558-c19885df-b133-48f7-8450-b4f4d0d37992%26entityType%3Dcollection%26workspaceId%3D147fa808-9df7-4757-a21b-2c96f89452ee)
+- **Helmet** – Secure HTTP headers (CSP, XSS, etc.).
+- **Rate Limiting** – Prevent brute-force attacks.
+- **Zod** – Input validation + sanitization.
+- **JWT + Refresh Tokens** – Secure session management.
+- **HttpOnly Cookies** – Mitigates XSS attacks.
+- **AES-256 Encryption** – Passwords encrypted at rest.
+- **Bcrypt** – One-way password hashing.
+- **CORS** – Restricted origins + credentials.
 
-## 🔒 Security Best Practices Used
+## 🧪 Postman Collection
 
-- `helmet()` to set secure HTTP headers (XSS, clickjacking, CSP, etc.)
-- `express-rate-limit` to prevent brute-force attacks
-- `bcrypt` for one-way password hashing
-- `jsonwebtoken` stored in HttpOnly cookies
-- `cors` with allowed origins and credentials
-- Proper status codes and error handling
-- Input validation and sanitization at controller level
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/43160558-77b173b0-0f91-4114-bb05-401beff4c829?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D43160558-77b173b0-0f91-4114-bb05-401beff4c829%26entityType%3Dcollection%26workspaceId%3D147fa808-9df7-4757-a21b-2c96f89452ee)
 
 ## 📃 License
 
@@ -129,9 +160,9 @@ This project is licensed under the ISC License.
 ## 👨‍💻 Author
 
 Mohammad Asad  
-Frontend Developer & MERN Stack Enthusiast  
+Frontend Developer & MERN Stack Enthusiast
 
 LinkedIn: [Mohammad Asad](https://www.linkedin.com/in/mohammad-asad-091b6a217/)  
-Twitter: [@IronCodeNagi](https://twitter.com/IronCodeNagi) 
+Twitter: [@IronCodeNagi](https://twitter.com/IronCodeNagi)
 
 > “Your passwords are only as strong as the vault that guards them. Digital Guardians makes sure that vault is bulletproof.”
