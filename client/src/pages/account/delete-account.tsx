@@ -1,10 +1,15 @@
-import { useState } from "react";
 import { Link } from "react-router";
 import { IoClose } from "react-icons/io5";
-import useAccount from "@/hooks/useAccount";
-import { useMutation } from "@tanstack/react-query";
 
-// UI Components
+// Form handling & validation
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Application services & schemas
+import { deleteUser } from "@/services/account";
+import { DeleteUserSchema } from "@/schemas/user";
+
+// UI Form Components
 import {
   Form,
   FormTitle,
@@ -12,6 +17,7 @@ import {
   InputContainer,
   Label,
   Input,
+  ErrorMessage,
   SubmitButton,
 } from "@/components/ui/form";
 
@@ -19,18 +25,20 @@ import {
 document.title = "Delete Account • Digital Guardians";
 
 function DeleteAccount() {
-  // Hooks
-  const { deleteAccount } = useAccount();
-  const [password, setPassword] = useState("");
-  const { isPending, mutate } = useMutation({
-    mutationFn: (event: React.FormEvent<HTMLFormElement>) =>
-      deleteAccount(password, setPassword, event),
+  // Initialize form with validation and defaults
+  const { register, handleSubmit, watch, formState, reset } = useForm({
+    resolver: zodResolver(DeleteUserSchema),
+    defaultValues: { password: "" },
+    delayError: 150,
+    mode: "all",
   });
 
   return (
     <main className="min-h-screen w-full p-5 flex items-center justify-center">
-      <Form onSubmit={mutate} className="relative">
-
+      <Form
+        onSubmit={handleSubmit((form) => deleteUser(form, reset))}
+        className="relative"
+      >
         {/* CLOSE BUTTON */}
         <Link
           to="/account"
@@ -56,26 +64,40 @@ function DeleteAccount() {
             Enter your password to confirm.
           </p>
 
-          {/* PASSWORD INPUT */}
-          <InputContainer>
-            <Label htmlFor="password">Password</Label>
+          {/* PASSWORD FIELD */}
+          <InputContainer
+            className={
+              formState.errors.password?.message
+                ? "border-red-500"
+                : "border-gray-500"
+            }
+          >
+            <Label
+              htmlFor="password"
+              className={
+                formState.errors.password?.message
+                  ? "text-red-500"
+                  : "text-[var(--text-secondary)]"
+              }
+            >
+              Password
+            </Label>
             <Input
+              {...register("password")}
               type="password"
               id="password"
-              name="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required={true}
-              minLength={8}
+              value={watch("password")}
             />
           </InputContainer>
-          
+          <ErrorMessage>{formState.errors.password?.message}</ErrorMessage>
+
         </FormBody>
 
-        <SubmitButton disabled={!password || isPending}>
+        {/* SUBMIT BUTTON */}
+        <SubmitButton disabled={!formState.isValid || formState.isSubmitting}>
           Delete Account
         </SubmitButton>
-
+        
       </Form>
     </main>
   );
