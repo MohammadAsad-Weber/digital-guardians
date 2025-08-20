@@ -1,9 +1,11 @@
 import { useParams } from "react-router";
-import usePassword from "@/hooks/usePassword";
-import { RiDeleteBinLine } from "react-icons/ri";
 import { useMutation } from "@tanstack/react-query";
+import { deletePassword } from "@/services/password";
 
-// UI Components
+// React-icons
+import { RiDeleteBinLine } from "react-icons/ri";
+
+// UI Modal Components
 import {
   Modal,
   ModalContent,
@@ -18,11 +20,12 @@ import {
 document.title = "Delete Password • Digital Guardians";
 
 function DeletePassword() {
-  // Hooks
-  const { id } = useParams();
-  const { deletePassword } = usePassword();
+  // Retrieve password ID from route parameters
+  const { id } = useParams<{ id: string }>();
+
+  // Configure delete password mutation with loading state tracking
   const { isPending, mutate } = useMutation({
-    mutationFn: () => deletePassword(id ?? ""),
+    mutationFn: () => deletePassword(id as string),
   });
 
   return (
@@ -45,7 +48,7 @@ function DeletePassword() {
             Yes, Delete
           </ModalProceedAction>
         </ModalActions>
-        
+
       </Modal>
     </main>
   );
