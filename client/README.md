@@ -1,39 +1,60 @@
-# 🔐 Digital Guardians - Client
+# 🔐 Digital Guardians — Client
 
-Welcome to the **client-side** of the **Digital Guardians** password manager web application. This is a full-stack web app built with the **MERN stack** (MongoDB, Express, React, Node.js). The client-side is developed using **React**, **TypeScript**, and **Tailwind CSS** to provide a responsive, user-friendly interface.
+_Secure. Fast. Modern. — Now Fully Upgraded for 2025 🚀_
 
-## 💡 Features
+## 📢 What’s New in This Update
 
-- **Authentication**: Users can sign in and log in securely.
-- **User Management**: Users can manage their account settings and profile.
-- **Password Management**: Users can store, view, and manage their passwords.
-- **Random Password Generator**: Generate strong random passwords for your accounts.
+- Zod-based form validation with inline error messages.
+- Safer, more maintainable and secure codebase.
+- Centralized TypeScript type definitions for consistency.
+- Code splitting implementation for improved performance.
+- Structured and scalable folder architecture for growth.
 
-## 🛠 Technologies Used
+## 🌟 Overview
 
-- **React.js** - For building the user interface.
-- **TypeScript** - For type safety and better development experience.
-- **Tailwind CSS** - For responsive and modern UI styling.
-- **React Router** - For client-side routing and navigation.
-- **TanStack Query** - For efficient data fetching and caching.
+The **Digital Guardians** Client is a high-performance, secure, and intuitive front-end for a full-stack password manager.  
+It combines modern UI design with enterprise-grade security practices, making password management easy and safe.
+
+## ✨ Core Features
+
+- **Authentication** - Secure signup/login with validation & error handling.
+- **Account Management** - Update profile & settings with instant feedback.
+- **Password Vault** - Store, edit, delete, and search credentials.
+- **Real-Time Data Sync** - Fast state updates using TanStack Query.
+- **Strong Password Generator** - One-click generation of complex passwords.
+- **Responsive UI** - Tailwind-powered, mobile-first design.
+
+## 🛠 Tech Stack
+
+| Layer      | Technology                             |
+| ---------- | -------------------------------------- |
+| Framework  | React 19 + TypeScript 5.7              |
+| Routing    | React Router v7                        |
+| State/Data | TanStack Query 5, React Hook Form, Zod |
+| Styling    | Tailwind CSS 4, clsx, tailwind-merge   |
+| HTTP       | Axios 1.8                              |
+| Utils      | date-fns, React Icons                  |
+| Build Tool | Vite 6                                 |
+| Linting    | ESLint + TypeScript ESLint             |
 
 ## 📂 Folder Structure
 
-Here is an overview of the folder structure:
-
 ```ini
 client/
-├── src/                   # Source code
-│   ├── assets/            # Static assets
-│   ├── components/        # Reusable UI components
-│   ├── data/              # Static data
-│   ├── hooks/             # Custom hooks for logic
-│   ├── layouts/           # Layout components
-│   ├── pages/             # Page components
-│   ├── utilities/         # Utility function
-│   ├── App.tsx            # Main application component
-│   ├── main.tsx           # Entry point for React application
-└── .env.local             # Environvent variables
+└── src/
+    ├── assets/            # Static images and stylesheet
+    ├── components/        # Reusable UI components
+    ├── data/              # Static configuration/data
+    ├── hooks/             # Custom React hooks
+    ├── layouts/           # Layout wrappers for pages
+    ├── libs/              # Shared library helpers
+    ├── pages/             # Route-level components
+    ├── schemas/           # Zod validation schemas
+    ├── services/          # API service calls
+    ├── types/             # Global TypeScript types
+    ├── utilities/         # Utility/helper functions
+    ├── App.tsx            # Main application component
+    └── main.tsx           # Entry point for React app
 ```
 
 ## ⚙️ Getting Started
@@ -63,7 +84,7 @@ To get started with the development of the client-side, follow these steps:
    npm run dev
    ```
 
-This will start the application on `http://localhost:5173`.
+   > This will start the application on http://localhost:5173.
 
 ## 🌍 Environment Variables
 
@@ -73,7 +94,22 @@ You need to set up environment variables for the app to function correctly. Crea
 VITE_BACKEND_URL=YOUR_BACKEND_URL
 ```
 
-_This URL points to the server-side API._
+> This URL points to the server-side API.
+
+## 🧪 Quality & Security
+
+**Code Quality Check**
+Run ESLint to ensure code consistency and detect potential issues:
+
+```bash
+npm run lint
+```
+
+**Security Recommendations**
+
+- 🔒 Always use **HTTPS** for all API requests in production.
+- 🛡 Implement a **Content Security Policy (CSP)** to mitigate XSS attacks.
+- 🗝 Store sensitive production secrets in a **secure vault** rather than `.env` files.
 
 ## 📃 License
 
