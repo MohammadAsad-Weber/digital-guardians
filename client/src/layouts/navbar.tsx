@@ -1,14 +1,18 @@
-import { Link } from "react-router";
 import { useMemo, useState } from "react";
-import Hamburger from "@/components/Hamburger";
+import { Link } from "react-router";
+
+// React-icons and components
 import { BiMenuAltRight } from "react-icons/bi";
+import HamburgerMenu from "@/components/hamburger-menu";
+
+// Application data
 import { authenticatedLinks, unauthenticatedLinks } from "@/data/constant";
 
 function Navbar() {
-  // Hook
+  // State to control mobile menu visibility
   const [toggle, setToggle] = useState(false);
 
-  // Links based on authentication
+  // Decide which links to show based on presence of access token
   const token = localStorage.getItem("access_token");
   const links = useMemo(() => {
     return token ? authenticatedLinks : unauthenticatedLinks;
@@ -30,13 +34,11 @@ function Navbar() {
 
         {/* LINKS CONTAINER FOR SCREENS LARGER THAN 768px */}
         <div className="hidden text-sm items-center gap-4 md:flex lg:gap-5 xl:text-base">
-          {links.map(({ text, href }, index) => {
-            return (
-              <Link key={index} to={href} className="hover:underline">
-                {text}
-              </Link>
-            );
-          })}
+          {links.map(({ text, href }, index) => (
+            <Link key={index} to={href} className="hover:underline">
+              {text}
+            </Link>
+          ))}
         </div>
 
         {/* HAMBURGER MENU TOGGLE BUTTON */}
@@ -50,7 +52,7 @@ function Navbar() {
       </nav>
 
       {/* HAMBURGER MENU */}
-      <Hamburger toggle={toggle} links={links} setToggle={setToggle} />
+      <HamburgerMenu toggle={toggle} links={links} setToggle={setToggle} />
 
     </header>
   );

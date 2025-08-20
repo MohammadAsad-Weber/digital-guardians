@@ -1,9 +1,8 @@
+import { Link } from "react-router";
 import { footerLinks } from "@/data/constant";
 
 function Footer() {
-  // Get the current year
-  const year = new Date().getFullYear();
-
+  const date = new Date();
   return (
     <footer className="w-full bg-[#141F23]">
 
@@ -22,21 +21,19 @@ function Footer() {
       {/* SOCIAL MEDIA LINKS & COPYRIGHT */}
       <div className="w-full p-7.5 text-[#E6E6E6] flex flex-col items-center justify-center gap-5">
         <div className="w-fit text-5xl flex items-center justify-center gap-3.5">
-          {footerLinks.map(({ icon, link }, index) => {
-            return (
-              <a
-                key={index}
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {icon}
-              </a>
-            );
-          })}
+          {footerLinks.map(({ icon, link }, index) => (
+            <Link
+              key={index}
+              to={link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {icon}
+            </Link>
+          ))}
         </div>
         <h6 className="tracking-widest text-center text-xs text-[#B0B0B0]">
-          Copyright © {year} Digital Guardians.
+          Copyright © {date.getFullYear()} Digital Guardians.
           <br />
           All Rights Reserved.
         </h6>
