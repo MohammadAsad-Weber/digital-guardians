@@ -5,25 +5,25 @@ import { Section, SectionTitle, SectionDescription } from "@/components/ui/secti
 import { Hero, HeroContent, HeroTitle, HeroDescription } from "@/components/ui/hero";
 
 // Images
-import Vault from "@/assets/images/vault_illustration.jpg";
-import First from "@/assets/images/security_1.jpg";
-import Second from "@/assets/images/security_2.jpg";
-import Third from "@/assets/images/security_3.jpg";
 import Secure from "@/assets/images/secure.png";
+import First from "@/assets/images/security-1.jpg";
+import Second from "@/assets/images/security-2.jpg";
+import Third from "@/assets/images/security-3.jpg";
+import Vault from "@/assets/images/vault-illustration.jpg";
 
 // Layouts
-import Navbar from "@/layouts/Navbar";
-import Footer from "@/layouts/Footer";
+import Navbar from "@/layouts/navbar";
+import Footer from "@/layouts/footer";
 
 // Rename the title
 document.title = "About us • Digital Guardians";
 
-function About() {
+function AboutPage() {
   return (
     <>
       <Navbar />
       <main>
-
+        
         {/* HEADER SECTION */}
         <Hero className="gap-7.5">
           <HeroContent className="max-w-lg">
@@ -110,16 +110,14 @@ function About() {
             development technologies, we focus on:
           </SectionDescription>
           <ul className="max-w-screen-md w-full list-disc pl-3.5 text-left flex flex-col gap-5">
-            {features.map((feature, index) => {
-              return (
-                <li key={index}>
-                  <span className="font-medium text-[var(--text-default)]">
-                    {feature.title}:
-                  </span>{" "}
-                  {feature.description}
-                </li>
-              );
-            })}
+            {features.map((feature, index) => (
+              <li key={index}>
+                <span className="font-medium text-[var(--text-default)]">
+                  {feature.title}:
+                </span>{" "}
+                {feature.description}
+              </li>
+            ))}
           </ul>
         </Section>
 
@@ -153,11 +151,11 @@ function About() {
             life — together.
           </SectionDescription>
         </Section>
-        
+
       </main>
       <Footer />
     </>
   );
 }
 
-export default About;
+export default AboutPage;

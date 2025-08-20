@@ -1,24 +1,24 @@
-import GenerateHero from "@/components/GenerateHero";
+import GeneratorHero from "@/components/generator-hero";
 
 // UI Components
 import { featuresGenerator as features, tips } from "@/data/constant";
 import { Section, SectionTitle, SectionDescription, CardContainer } from "@/components/ui/section";
 
 // Layouts
-import Navbar from "@/layouts/Navbar";
-import Footer from "@/layouts/Footer";
+import Navbar from "@/layouts/navbar";
+import Footer from "@/layouts/footer";
 
 // Rename the title
 document.title = "Random Password Generator • Digital Guardians";
 
-function Generate() {
+function GeneratorPage() {
   return (
     <>
       <Navbar />
       <main>
 
         {/* HERO COMPONENT */}
-        <GenerateHero />
+        <GeneratorHero />
 
         {/* FEATURES */}
         <Section className="gap-7.5">
@@ -26,22 +26,20 @@ function Generate() {
             Features
           </SectionTitle>
           <CardContainer className="max-w-fit gap-3.5">
-            {features.map((feature, index) => {
-              return (
-                <div
-                  key={index}
-                  className="aspect-[3/4] max-w-52 w-full p-5 flex flex-col items-center justify-center gap-3.5 bg-white rounded-2xl shadow-[0_0_10px_#00000040]"
-                >
-                  {feature.icon}
-                  <h4 className="text-[1.375rem] font-medium text-[var(--theme-primary)]">
-                    {feature.title}
-                  </h4>
-                  <p className="text-sm text-[var(--text-secondary)]">
-                    {feature.description}
-                  </p>
-                </div>
-              );
-            })}
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="aspect-[3/4] max-w-52 w-full p-5 flex flex-col items-center justify-center gap-3.5 bg-white rounded-2xl shadow-[0_0_10px_#00000040]"
+              >
+                {feature.icon}
+                <h4 className="text-[1.375rem] font-medium text-[var(--theme-primary)]">
+                  {feature.title}
+                </h4>
+                <p className="text-sm text-[var(--text-secondary)]">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </CardContainer>
         </Section>
 
@@ -51,9 +49,7 @@ function Generate() {
             Tips & Best Practices
           </SectionTitle>
           <ul className="w-fit list-disc pl-3.5 text-left flex flex-col gap-2.5">
-            {tips.map((tip, index) => {
-              return <li key={index}>{tip}</li>;
-            })}
+            {tips.map((tip, index) => <li key={index}>{tip}</li>)}
           </ul>
         </Section>
 
@@ -87,4 +83,4 @@ function Generate() {
   );
 }
 
-export default Generate;
+export default GeneratorPage;
