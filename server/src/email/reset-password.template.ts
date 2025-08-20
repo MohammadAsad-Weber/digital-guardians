@@ -1,6 +1,6 @@
-function resetPasswordTemplate({ username, resetLink }) {
-  const year = new Date().getFullYear();
-
+// Reset password email template generator
+function resetPasswordTemplate(username: string, resetLink: string) {
+  const date = new Date();
   return `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
@@ -85,7 +85,7 @@ function resetPasswordTemplate({ username, resetLink }) {
           </div>
         </div>
         <p style="color: #a0aec0; font-size: 12px; margin: 0 0 10px;">
-          © ${year} Digital Guardians. All rights reserved.
+          © ${date.getFullYear()} Digital Guardians. All rights reserved.
         </p>
       </div>
     </div>
