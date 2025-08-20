@@ -30,7 +30,7 @@ import {
   FaSquareXTwitter,
 } from "react-icons/fa6";
 
-// Navbar Links Data
+// Navbar Links
 export const authenticatedLinks = [
   {
     text: "Home",
@@ -234,7 +234,7 @@ export const featuresAbout = [
   },
 ];
 
-// Account Page
+// Account Page Links
 export const accountLinks = [
   {
     icon: <TbEdit size="1.25rem" />,
@@ -258,7 +258,7 @@ export const accountLinks = [
   },
 ];
 
-// Footer Links Data
+// Footer Links
 export const footerLinks = [
   {
     icon: <FaGithub />,
