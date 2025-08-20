@@ -1,9 +1,17 @@
-import { useState } from "react";
 import { Link } from "react-router";
-import useAuth from "@/hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-// UI Components
+// Application services & schemas
+import { signup } from "@/services/auth";
+import { SignupSchema } from "@/schemas/auth";
+
+// React-icons
+import { FaUserCircle } from "react-icons/fa";
+import { FiUser, FiLock } from "react-icons/fi";
+import { MdOutlineEmail } from "react-icons/md";
+
+// UI Auth Form Components
 import {
   Form,
   FormHeader,
@@ -11,44 +19,36 @@ import {
   FormDescription,
   FormBody,
   InputContainer,
-  Input,
   Label,
+  Input,
+  ErrorMessage,
   SubmitButton,
 } from "@/components/ui/auth-form";
-
-// React-icons
-import { FaUserCircle } from "react-icons/fa";
-import { FiUser, FiLock } from "react-icons/fi";
-import { MdOutlineEmail } from "react-icons/md";
 
 // Rename the title
 document.title = "Signup Page • Digital Guardians";
 
 function Signup() {
-  // Hooks
-  const { signup } = useAuth();
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
+  // Initialize form with validation and defaults
+  const { register, handleSubmit, watch, formState, reset } = useForm({
+    resolver: zodResolver(SignupSchema),
+    delayError: 150,
+    mode: "all",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
   });
-  const { isPending, mutate } = useMutation({
-    mutationFn: (event: React.FormEvent<HTMLFormElement>) =>
-      signup(form, setForm, event),
-  });
-
-  // Input Handler
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
-  };
+  
+  // Extract useful states from form
+  const { isValid, isSubmitting, errors } = formState;
+  const { username, email, password } = errors;
 
   return (
     <main className="min-h-screen w-full p-5 flex items-center justify-center">
-      <Form onSubmit={mutate}>
-
+      <Form onSubmit={handleSubmit((form) => signup(form, reset))}>
+      
         {/* FORM HEADER */}
         <FormHeader>
           <FaUserCircle className="mb-2.5 text-5xl text-[var(--theme-primary)]" />
@@ -61,60 +61,49 @@ function Signup() {
         {/* FORM BODY */}
         <FormBody>
 
-          {/* USERNAME INPUT */}
+          {/* USERNAME FIELD */}
           <InputContainer>
             <Label htmlFor="username" required={true}>
               Username
             </Label>
             <Input
+              {...register("username")}
               icon={<FiUser className="text-2xl text-[var(--icons-primary)]" />}
-              type="text"
               id="username"
-              name="username"
-              value={form.username}
-              onChange={handleInput}
-              required={true}
-              placeholder="Enter a unique username"
-              minLength={5}
-              maxLength={50}
+              placeholder="Enter your desired username"
             />
+            <ErrorMessage>{username?.message}</ErrorMessage>
           </InputContainer>
 
-          {/* EMAIL INPUT */}
+          {/* EMAIL FIELD */}
           <InputContainer>
             <Label htmlFor="email" required={true}>
-              E-mail
+              Email Address
             </Label>
             <Input
-              icon={
-                <MdOutlineEmail className="text-2xl text-[var(--icons-primary)]" />
-              }
+              {...register("email")}
+              icon={<MdOutlineEmail className="text-2xl text-[var(--icons-primary)]" />}
               type="email"
               id="email"
-              name="email"
-              value={form.email}
-              onChange={handleInput}
-              required={true}
-              placeholder="Enter your e-mail address"
+              placeholder="Enter your email address"
             />
+            <ErrorMessage>{email?.message}</ErrorMessage>
           </InputContainer>
 
-          {/* PASSWORD INPUT */}
+          {/* PASSWORD FIELD */}
           <InputContainer>
             <Label htmlFor="password" required={true}>
               Password
             </Label>
             <Input
+              {...register("password")}
               icon={<FiLock className="text-2xl text-[var(--icons-primary)]" />}
               type="password"
               id="password"
-              name="password"
-              value={form.password}
-              onChange={handleInput}
-              required={true}
-              placeholder="Enter your password"
-              minLength={8}
+              value={watch("password")}
+              placeholder="Create a secure password"
             />
+            <ErrorMessage>{password?.message}</ErrorMessage>
           </InputContainer>
 
           {/* LOGIN LINK */}
@@ -128,14 +117,10 @@ function Signup() {
         </FormBody>
 
         {/* SUBMIT BUTTON */}
-        <SubmitButton
-          disabled={
-            !form.username || !form.email || !form.password || isPending
-          }
-        >
+        <SubmitButton disabled={!isValid || isSubmitting}>
           Register
         </SubmitButton>
-        
+
       </Form>
     </main>
   );

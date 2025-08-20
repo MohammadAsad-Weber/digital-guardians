@@ -1,9 +1,18 @@
-import { useState } from "react";
 import { Link } from "react-router";
-import useAuth from "@/hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
 
-// UI Components
+// Form handling & validation
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Application services & schemas
+import { login } from "@/services/auth";
+import { LoginSchema } from "@/schemas/auth";
+
+// React-icons
+import { FiUser, FiLock } from "react-icons/fi";
+import { BiSolidLogInCircle } from "react-icons/bi";
+
+// UI Auth Form Components
 import {
   Form,
   FormHeader,
@@ -11,41 +20,34 @@ import {
   FormDescription,
   FormBody,
   InputContainer,
-  Input,
   Label,
+  Input,
+  ErrorMessage,
   SubmitButton,
 } from "@/components/ui/auth-form";
-
-// React-icons
-import { FiUser, FiLock } from "react-icons/fi";
-import { BiSolidLogInCircle } from "react-icons/bi";
 
 // Rename the title
 document.title = "Login Page • Digital Guardians";
 
 function Login() {
-  // Hooks
-  const { login } = useAuth();
-  const [form, setForm] = useState({
-    userId: "",
-    password: "",
-  });
-  const { isPending, mutate } = useMutation({
-    mutationFn: (event: React.FormEvent<HTMLFormElement>) =>
-      login(form, setForm, event),
+  // Initialize form with validation and defaults
+  const { register, handleSubmit, watch, formState, reset } = useForm({
+    resolver: zodResolver(LoginSchema),
+    delayError: 150,
+    mode: "all",
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
   });
 
-  // Input Handler
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
-  };
+  // Extract useful states from form
+  const { isValid, isSubmitting, errors } = formState;
+  const { identifier, password } = errors;
 
   return (
     <main className="min-h-screen w-full p-5 flex items-center justify-center">
-      <Form onSubmit={mutate}>
+      <Form onSubmit={handleSubmit((form) => login(form, reset))}>
 
         {/* FORM HEADER */}
         <FormHeader>
@@ -59,40 +61,34 @@ function Login() {
         {/* FORM BODY */}
         <FormBody>
 
-          {/* USERNAME/EMAIL INPUT */}
+          {/* USERNAME/EMAIL FIELD */}
           <InputContainer>
-            <Label htmlFor="userId" required={true}>
-              Username
+            <Label htmlFor="identifier" required={true}>
+              Username / Email Address
             </Label>
             <Input
+              {...register("identifier")}
               icon={<FiUser className="text-2xl text-[var(--icons-primary)]" />}
-              id="userId"
-              name="userId"
-              value={form.userId}
-              onChange={handleInput}
-              required={true}
-              placeholder="Username or E-mail"
-              minLength={5}
-              maxLength={50}
+              id="identifier"
+              placeholder="Enter your username or email address"
             />
+            <ErrorMessage>{identifier?.message}</ErrorMessage>
           </InputContainer>
 
-          {/* PASSWORD INPUT */}
+          {/* PASSWORD FIELD */}
           <InputContainer>
             <Label htmlFor="password" required={true}>
               Password
             </Label>
             <Input
+              {...register("password")}
               icon={<FiLock className="text-2xl text-[var(--icons-primary)]" />}
               type="password"
               id="password"
-              name="password"
-              value={form.password}
-              onChange={handleInput}
-              required={true}
-              placeholder="Enter your password"
-              minLength={8}
+              value={watch("password")}
+              placeholder="Enter your password to continue"
             />
+            <ErrorMessage>{password?.message}</ErrorMessage>
           </InputContainer>
 
           {/* LINKS */}
@@ -110,13 +106,11 @@ function Login() {
               Forgot password?
             </Link>
           </div>
-          
+
         </FormBody>
 
         {/* SUBMIT BUTTON */}
-        <SubmitButton disabled={!form.userId || !form.password || isPending}>
-          Login
-        </SubmitButton>
+        <SubmitButton disabled={!isValid || isSubmitting}>Login</SubmitButton>
 
       </Form>
     </main>
