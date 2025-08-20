@@ -1,8 +1,10 @@
-import useAuth from "@/hooks/useAuth";
-import { PiWarningCircle } from "react-icons/pi";
+import { logout } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 
-// UI Components
+// React-icons
+import { PiWarningCircle } from "react-icons/pi";
+
+// UI Modal Components
 import {
   Modal,
   ModalContent,
@@ -17,8 +19,7 @@ import {
 document.title = "Logout • Digital Guardians";
 
 function Logout() {
-  // Hooks
-  const { logout } = useAuth();
+  // Initialize logout mutation hook
   const { isPending, mutate } = useMutation({ mutationFn: logout });
 
   return (
