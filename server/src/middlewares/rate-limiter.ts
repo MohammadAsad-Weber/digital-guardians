@@ -10,7 +10,7 @@ const rateLimitHandler =
   (windowMs: number): RateLimitExceededEventHandler =>
   (req, res) => {
     // Logs IP with Path when rate limit is triggered
-    console.warn(`\n[RATE LIMIT EXCEEDED]: Potential brute-force attempt | IP: ${req.ip} | Path: ${req.path}\n`);
+    console.warn(`\n[RATE LIMIT EXCEEDED]: Potential brute-force attempt || IP: ${req.ip} || Path: ${req.path}\n`);
 
     // Sends a structured 429 response
     createResponse(res).send({
@@ -22,22 +22,23 @@ const rateLimitHandler =
     });
   };
 
-// Time window in milliseconds (10 minutes)
-const windowMs = 10 * 60 * 1000;
+// Time window in milliseconds
+const AuthMs = 15 * 60 * 1000;
+const generalMs = 10 * 60 * 1000;
 
 // General rate limiter: restricts to 100 requests
 export const generalLimiter = rateLimit({
-  windowMs: windowMs,
+  windowMs: generalMs,
   limit: 100,
-  standardHeaders: "draft-8",
   legacyHeaders: false,
-  handler: rateLimitHandler(windowMs),
+  standardHeaders: "draft-8",
+  handler: rateLimitHandler(generalMs),
 });
 // Authentication-specific rate limiter: restricts to 5 requests
 export const authLimiter = rateLimit({
-  windowMs: windowMs,
-  limit: 5,
-  standardHeaders: "draft-8",
+  windowMs: AuthMs,
+  limit: 10,
   legacyHeaders: false,
-  handler: rateLimitHandler(windowMs),
+  standardHeaders: "draft-8",
+  handler: rateLimitHandler(AuthMs),
 });
