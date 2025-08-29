@@ -3,6 +3,7 @@ import connectDB from "./connect-database.js";
 import generateHash from "./generate-hash.js";
 import createResponse from "./create-response.js";
 import { encrypt, decrypt } from "./encrypt-password.js";
+import extractChangedFields from "./extract-changed-fields.js";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -19,4 +20,5 @@ export {
   generateResetToken,
   generateAccessToken,
   generateRefreshToken,
+  extractChangedFields,
 };
