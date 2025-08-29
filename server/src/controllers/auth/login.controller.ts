@@ -29,8 +29,8 @@ const login: RequestHandler<any, any, Login> = async (req, res, next) => {
     // If user not found or password doesn't match, deny access
     if (!user || !(await bcrypt.compare(password, user.password))) {
       createResponse(res).send({
-        status: "Unauthorized",
-        status_code: 401,
+        status: "Forbidden",
+        status_code: 403,
         message: "The email or password you entered is incorrect",
       });
       return;

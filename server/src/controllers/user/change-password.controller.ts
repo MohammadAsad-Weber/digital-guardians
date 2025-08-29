@@ -25,8 +25,8 @@ const changePassword: RequestHandler<any, any, ChangePassword> = async (
     const user = await User.findById(req.user.id);
     if (!user || !(await bcrypt.compare(oldPassword, user.password))) {
       createResponse(res).send({
-        status: "Unauthorized",
-        status_code: 401,
+        status: "Forbidden",
+        status_code: 403,
         message: "The password you entered is incorrect",
       });
       return;
