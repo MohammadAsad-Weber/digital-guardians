@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 // Defines strongly-typed HTTP response structures
 type StatusCodeMap = {
   200: "OK";
@@ -22,3 +24,15 @@ type Response = {
 
 // Generic HTTP response type extending the base structure with a typed payload
 export type CreateResponse<T = Record<string, unknown>> = Response & T;
+
+// Union type representing all supported primitive values, objects, and Date (or null).
+export type DataType =
+  | null
+  | number
+  | bigint
+  | boolean
+  | string
+  | object
+  | Array
+  | Date
+  | ObjectId;
