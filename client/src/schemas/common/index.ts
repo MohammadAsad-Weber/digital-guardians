@@ -17,13 +17,13 @@ export const NewPasswordSchema = z
   .string({ error: "Please enter your new password" })
   .nonempty({ error: "The new password field is required" })
   .regex(/[A-Z]/, {
-    error: "The password must contain at least one uppercase letter",
+    error: "The new password must contain at least one uppercase letter",
   })
   .regex(/[^A-Za-z0-9]/, {
-    error: "The password must contain at least one special character",
+    error: "The new password must contain at least one special character",
   })
   .regex(/[0-9]/, {
-    error: "The password must contain at least one number",
+    error: "The new password must contain at least one number",
   })
   .min(8, { error: "The new password must be at least 8 characters long" });
 
