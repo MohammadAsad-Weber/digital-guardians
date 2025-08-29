@@ -1,5 +1,5 @@
 import { Password } from "@/models/index.js";
-import { createResponse, encrypt } from "@/utilities/index.js";
+import { createResponse, extractChangedFields, encrypt } from "@/utilities/index.js";
 
 // Type Imports
 import type { RequestHandler } from "express";
@@ -13,9 +13,6 @@ const updatePassword: RequestHandler<IdParams, any, UpdatePassword> = async (
   next
 ) => {
   try {
-    // Define the allowed fields eligible for update
-    const fields = ["siteURL", "username", "password"] as const;
-
     // Attempt to retrieve the password record for the authenticated user
     const password = await Password.findById({
       _id: req.params.id,
@@ -31,17 +28,12 @@ const updatePassword: RequestHandler<IdParams, any, UpdatePassword> = async (
       return;
     }
     // Build an update object containing only changed fields
-    const updatedData: UpdatePassword = fields.reduce<Record<string, string>>(
-      (acc, field) => {
-        const value = req.body[field];
-        const isValueSame = value === password[field];
-        if (value && !isValueSame) acc[field] = value;
-        return acc;
-      },
-      {}
-    );
+    const changedFields = extractChangedFields<UpdatePassword>(
+      req.body,
+      password
+    );    
     // Skip update if there are no changes detected
-    if (Object.keys(updatedData).length === 0) {
+    if (!changedFields) {
       createResponse(res).send({
         status: "OK",
         status_code: 200,
@@ -50,13 +42,13 @@ const updatePassword: RequestHandler<IdParams, any, UpdatePassword> = async (
       return;
     }
     // Encrypt the password if it has been modified
-    if (updatedData.password)
-      updatedData.password = encrypt(updatedData.password);
+    if (changedFields.password)
+      changedFields.password = encrypt(changedFields.password);
 
     // Persist the updated data to the database
     await Password.findByIdAndUpdate(req.params.id, {
       $set: {
-        ...updatedData,
+        ...changedFields,
         updatedAt: new Date(),
       },
       $inc: { __v: 1 },

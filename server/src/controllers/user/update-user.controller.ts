@@ -9,7 +9,7 @@ import type { RequestHandler } from "express";
 import type { UpdateUser } from "@/validators/user/index.js";
 
 // Utility Imports
-import { createResponse } from "@/utilities/index.js";
+import { createResponse, extractChangedFields } from "@/utilities/index.js";
 
 // Update User handler – processes profile updates for the authenticated user
 const updateUser: RequestHandler<any, any, UpdateUser> = async (
@@ -18,8 +18,6 @@ const updateUser: RequestHandler<any, any, UpdateUser> = async (
   next
 ) => {
   try {
-    const fields = ["username", "email"] as const;
-
     // Fetch user from database and verify the provided password
     const user = await User.findById(req.user.id);
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
@@ -31,14 +29,13 @@ const updateUser: RequestHandler<any, any, UpdateUser> = async (
       return;
     }
     // Determine which fields have been modified
-    const updatedData = fields.reduce<Record<string, string>>((acc, field) => {
-      const value = req.body[field];
-      const isValueSame = value === user[field];
-      if (value && !isValueSame) acc[field] = value;
-      return acc;
-    }, {});
+    const changedFields = extractChangedFields<Omit<UpdateUser, "password">>(
+      req.body,
+      user,
+      ["username", "email"]
+    );
     // Skip update if no fields were modified or provided
-    if (Object.keys(updatedData).length === 0) {
+    if (!changedFields) {
       createResponse(res).send({
         status: "OK",
         status_code: 200,
@@ -47,18 +44,17 @@ const updateUser: RequestHandler<any, any, UpdateUser> = async (
       return;
     }
     // Construct query conditions to check for username/email conflicts
-    const condition = fields
+    const condition = (["username", "email"] as const)
       .map((field) => {
-        const value = req.body[field];
+        const value = changedFields[field];
         return value ? { [field]: value } : null;
       })
       .filter((element) => element !== null);
 
     // Check for existing user with same username/email (excluding self)
-    const conflict = await User.findOne({
-      $or: condition,
-      _id: { $ne: req.user.id },
-    });
+    const conflict = await User.findOne(
+      condition.length > 1 ? { $or: condition } : condition[0]
+    );
     // If a conflicting user is found, return a 409 Conflict response
     if (conflict) {
       createResponse(res).send({
@@ -71,7 +67,7 @@ const updateUser: RequestHandler<any, any, UpdateUser> = async (
     // Persist the updates to the database and increment the version
     await User.findByIdAndUpdate(req.user.id, {
       $set: {
-        ...updatedData,
+        ...changedFields,
         updatedAt: new Date(),
       },
       $inc: { __v: 1 },
