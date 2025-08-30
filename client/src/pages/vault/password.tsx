@@ -51,7 +51,7 @@ function Password() {
     const passwordData = data as PasswordData;
     const website = new URL(passwordData.siteURL);
     return (
-      <main className="min-h-screen w-full p-5 flex items-center justify-center">
+      <main className="min-h-screen w-full p-5 flex items-center justify-center form-pattern">
         <div className="max-w-md w-full p-5 pt-7.5 relative flex flex-col items-center justify-center gap-5 bg-white rounded-2xl shadow-[0_0_10px_#00000040] animate-zoom-out">
 
           {/* CLOSE BUTTON */}

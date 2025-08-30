@@ -23,7 +23,7 @@ function Logout() {
   const { isPending, mutate } = useMutation({ mutationFn: logout });
 
   return (
-    <main className="min-h-screen w-full p-5 flex items-center justify-center">
+    <main className="min-h-screen w-full p-5 flex items-center justify-center form-pattern">
       <Modal>
 
         {/* MODAL CONTENT */}

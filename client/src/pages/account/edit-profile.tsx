@@ -89,7 +89,7 @@ function EditProfile() {
   // Success state
   if (status === "success") {
     return (
-      <main className="min-h-screen w-full p-5 flex items-center justify-center">
+      <main className="min-h-screen w-full p-5 flex items-center justify-center form-pattern">
         <Form onSubmit={handleSubmit((form) => updateUser(form))}>
 
           {/* FORM HEADER */}

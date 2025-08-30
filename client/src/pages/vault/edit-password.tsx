@@ -95,7 +95,7 @@ function EditPassword() {
   if (status === "success") {
     const passwordData = data as PasswordData;
     return (
-      <main className="min-h-screen w-full p-5 flex items-center justify-center">
+      <main className="min-h-screen w-full p-5 flex items-center justify-center form-pattern">
         <Form
           onSubmit={handleSubmit((form) => updatePassword(passwordData._id, form))}
         >

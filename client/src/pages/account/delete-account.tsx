@@ -34,7 +34,7 @@ function DeleteAccount() {
   });
 
   return (
-    <main className="min-h-screen w-full p-5 flex items-center justify-center">
+    <main className="min-h-screen w-full p-5 flex items-center justify-center form-pattern">
       <Form
         onSubmit={handleSubmit((form) => deleteUser(form, reset))}
         className="relative"
