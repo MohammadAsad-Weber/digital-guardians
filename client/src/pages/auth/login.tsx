@@ -46,7 +46,7 @@ function Login() {
   const { identifier, password } = errors;
 
   return (
-    <main className="min-h-screen w-full p-5 flex items-center justify-center">
+    <main className="min-h-screen w-full p-5 flex items-center justify-center auth-pattern">
       <Form onSubmit={handleSubmit((form) => login(form, reset))}>
 
         {/* FORM HEADER */}

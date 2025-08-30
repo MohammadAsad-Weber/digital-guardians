@@ -38,7 +38,7 @@ function ForgotPassword() {
   const { isValid, isSubmitting, errors } = formState;
 
   return (
-    <main className="min-h-screen w-full p-5 flex items-center justify-center">
+    <main className="min-h-screen w-full p-5 flex items-center justify-center auth-pattern">
       <Form
         backTo="/auth/login"
         onSubmit={handleSubmit((form) => forgotPassword(form, reset))}
