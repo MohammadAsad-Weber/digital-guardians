@@ -60,6 +60,64 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   display: none;
 }
 
+.auth-pattern {
+  background:
+    radial-gradient(35.36% 35.36% at 100% 25%,
+      #0000 66%,
+      var(--color-gray-300) 68% 70%,
+      #0000 72%) 40px 40px/calc(2*40px) calc(2*40px),
+
+    radial-gradient(35.36% 35.36% at 0 75%,
+      #0000 66%,
+      var(--color-gray-300) 68% 70%,
+      #0000 72%) 40px 40px/calc(2*40px) calc(2*40px),
+
+    radial-gradient(35.36% 35.36% at 100% 25%,
+      #0000 66%,
+      var(--color-gray-300) 68% 70%,
+      #0000 72%) 0 0/calc(2*40px) calc(2*40px),
+
+    radial-gradient(35.36% 35.36% at 0 75%,
+      #0000 66%,
+      var(--color-gray-300) 68% 70%,
+      #0000 72%) 0 0/calc(2*40px) calc(2*40px),
+
+    repeating-conic-gradient(var(--bg-primary) 0 25%,
+      #0000 0 50%) 0 0/calc(2*40px) calc(2*40px),
+
+    radial-gradient(#0000 66%,
+      var(--color-gray-300) 68% 70%,
+      #0000 72%) 0 calc(40px/2)/40px 40px var(--bg-primary);
+}
+
+.form-pattern {
+  background:
+    radial-gradient(circle,
+      transparent 20%,
+      var(--bg-primary) 20%,
+      var(--bg-primary) 80%,
+      transparent 80%,
+      transparent) 0% 0% / 80px 80px,
+
+    radial-gradient(circle,
+      transparent 20%,
+      var(--bg-primary) 20%,
+      var(--bg-primary) 80%,
+      transparent 80%,
+      transparent) 40px 40px / 80px 80px,
+
+
+    linear-gradient(var(--color-gray-300) 2px,
+      transparent 2px) 0px -1px / 40px 40px,
+
+    linear-gradient(90deg,
+      var(--color-gray-300) 2px,
+      var(--bg-primary) 2px) -1px 0px / 40px 40px var(--bg-primary);
+
+  background-color: var(--bg-primary);
+  background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
+}
+
 /* SLIDE ANIMATION */
 .animate-slide-in {
   animation: fade-slide-in 500ms ease-in-out;
