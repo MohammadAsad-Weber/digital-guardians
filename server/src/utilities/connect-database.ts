@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 // Establishes a MongoDB connection using Mongoose with error handling
 const connectDB = async (url: string | undefined) => {
+  if (!url) throw new Error("The DATABASE_URL variable is not defined in the .env file");
   try {
-    if (!url) throw new Error("The DATABASE_URL variable is not defined in the .env file");
     await mongoose.connect(url);
     console.log("Connected to the database successfully");
   } catch (error) {
