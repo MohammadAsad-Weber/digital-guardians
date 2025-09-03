@@ -29,16 +29,12 @@ connectDB(process.env.DATABASE_URL);
 app.set("trust proxy", 1);
 
 // Global Middleware
-app.use(express.json());
-app.use(cookieParser());
 app.use(helmet());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(generalLimiter);
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-);
+app.use(cookieParser());
+app.use(express.json());
+
 // Register route handlers for defined paths
 app.use("/auth", authHandler);
 app.use("/account", accountHandler);
